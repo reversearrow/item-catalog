@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Catalog</title>
+</head>
+<body>
+  <h1> Categories </h1>
+  <ul>
+  {% for category in categories %}
+      <li>{{ category.name }}</li>
+  {% endfor %}
+  </ul>
+  <h1> Latest Items </h1>
+  <ul>
+  {% for item in items %}
+      <li>{{ item.name }}</li>
+  {% endfor %}
+  </ul>
+</body>
+</html>

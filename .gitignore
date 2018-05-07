@@ -102,3 +102,5 @@ local/
 
 # mypy
 .mypy_cache/
+
+migrations/
