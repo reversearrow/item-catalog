@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Add Item</title>
+</head>
+<body>
+  <form method="POST">
+    <label> Title <input type = "text" name = "title" value = "{{title}}"></input></label> <br>
+    <label> Description <input type = "text" name = "description" value = "{{description}}"> </input></label> <br>
+    <select name="categories">
+      {% for category in categories %}
+          <option value={{category.name}}>{{category.name}}</option>
+      {% endfor %}
+    </select>
+    <br>
+    <input type="submit">
+    {{error}}
+</body>
+</html>

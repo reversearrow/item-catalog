@@ -10,7 +10,8 @@
       <li>{{ category.name }}</li>
   {% endfor %}
   </ul>
-  <h1> Latest Items </h1>
+  <h1> {{ display_items | default("Latest")}} Items </h1>
+  <p><a href="/catalog/add">Add Item</a></p>
   <ul>
   {% for item in items %}
       <li>{{ item.name }}</li>

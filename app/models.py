@@ -23,6 +23,7 @@ class Items(db.Model):
     uuid = db.Column(db.String(20), primary_key=True,
                      default=lambda: uuid.uuid4().hex)
     name = db.Column(db.String(50), unique=True, nullable=False)
+    description = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime(timezone=True),
                            server_default=func.now())
     updated_at = db.Column(db.DateTime(timezone=True),
