@@ -7,14 +7,14 @@
   <h1> Categories </h1>
   <ul>
   {% for category in categories %}
-      <li>{{ category.name }}</li>
+      <li><a href="{{url_for('catalog.root', category=category.name)}}">{{ category.name }}</a></li>
   {% endfor %}
   </ul>
-  <h1> {{ display_items | default("Latest")}} Items </h1>
+  <h1> {{ category }} Items </h1>
   <p><a href="/catalog/add">Add Item</a></p>
   <ul>
   {% for item in items %}
-      <li>{{ item.name }}</li>
+      <li>{{ item.name }} ({{item.category.name}})</li>
   {% endfor %}
   </ul>
 </body>
