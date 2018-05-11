@@ -11,7 +11,7 @@
   {% endfor %}
   </ul>
   <h1> {{ category }} Items </h1>
-  <p><a href="/catalog/add">Add Item</a></p>
+  <p><a href="{{url_for('catalog.add')}}">Add Item</a></p>
   <ul>
   {% for item in items %}
       <li><a href="{{url_for('catalog.root', category=item.category.name, item=item.name)}}">{{ item.name }} ({{item.category.name}})</a></li>

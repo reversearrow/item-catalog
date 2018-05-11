@@ -26,10 +26,10 @@ def root(category='default', item='default'):
 
 
 @catalog_bp.route('/catalog/add', methods=['GET', 'POST'])
-def add():
+def add(category=None, item=None):
     categories = Categories.query.order_by('name').all()
     if request.method == 'POST':
-        name = request.form.get('title')
+        name = request.form.get('name')
         description = request.form.get('description')
         category = request.form.get('categories')
         match_empty_regex = r' +'
@@ -45,3 +45,27 @@ def add():
             db.session.commit()
             return redirect(url_for('catalog.root'))
     return render_template('items.html', categories=categories)
+
+
+@catalog_bp.route('/catalog/<string:category>/<string:item>/edit', methods=['GET', 'POST'])
+def edit(category, item):
+    categories = Categories.query.order_by('name').all()
+    category = Categories.query.filter_by(name=category).first_or_404()
+    item = Items.query.filter(and_(Items.name.like(
+        item)), (Items.category_id.like(category.uuid))).first_or_404()
+    if request.method == 'GET':
+        return render_template('items.html', name=item.name, description=item.description, selected=category.name, categories=categories)
+    if request.method == 'POST':
+        name = request.form.get('name')
+        description = request.form.get('description')
+        match_empty_regex = r' +'
+        if re.match(match_empty_regex, name) or name == "":
+            return render_template('items.html', title=name, description=description, categories=categories, error="Title is not valid!")
+        if re.match(match_empty_regex, description) or description == "":
+            return render_template('items.html', title=name, description=description, categories=categories, error="Description is not valid!")
+        else:
+            item.name = request.form.get('name')
+            item.description = request.form.get('description')
+            db.session.add(item)
+            db.session.commit()
+            return redirect(url_for('catalog.root'))
