@@ -104,3 +104,5 @@ local/
 .mypy_cache/
 
 migrations/
+
+db/
