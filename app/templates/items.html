@@ -1,23 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <title>Add Item</title>
+  <title>Item</title>
 </head>
+
 <body>
+  {% with messages = get_flashed_messages() %}
+      {% if messages %}
+      <ul>
+        {% for message in messages %}
+        <li><strong>{{message}}</strong></li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+  {% endwith %}
   <form method="POST">
-    <label> Title <input type = "text" name = "name" value = "{{name}}"></input></label> <br>
-    <label> Description <input type = "text" name = "description" value = "{{description}}"> </input></label> <br>
-    <select name="categories">
-      {% for category in categories %}
-          {% if category.name is eq selected %}
-            <option value={{category.name}} selected>{{category.name}}</option>
-          {% else %}
-            <option value={{category.name}}>{{category.name}}</option>
-          {% endif %}
-      {% endfor %}
-    </select>
-    <br>
+    {{ form.csrf_token }}
+    {{ form.name.label }} <br>
+    {{ form.name }} <br>
+    {{ form.description.label }} <br>
+    {{ form.description }} <br>
+    {{form.category.label}} <br>
+    {{ form.category()}} <br>
     <input type="submit">
-    {{error}}
+  </form>
 </body>
+
 </html>
