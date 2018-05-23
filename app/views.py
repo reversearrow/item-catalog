@@ -1,9 +1,19 @@
 from flask import Blueprint, render_template, url_for, redirect, request, flash
+from flask import session as login_session
 from models import db, Categories, Items
 from sqlalchemy import and_
 import re
+import string
+import random
 from forms import ItemForm
 from wtforms import ValidationError
+from oauth2client.client import flow_from_clientsecrets
+from oauth2client.client import FlowExchangeError
+import httplib2
+import json
+from flask import make_response
+import requests
+
 
 catalog_bp = Blueprint('catalog', __name__)
 
@@ -60,14 +70,12 @@ def edit(category, item):
         form.description.data = item.description
         form.category.process_data(category.uuid)
         return render_template('items.html', form=form)
-
     if form.validate_on_submit():
         item.name = form.name.data
         item.description = form.description.data
         db.session.add(item)
         db.session.commit()
         return redirect(url_for('catalog.root'))
-
     else:
         errors = form.errors.items()
         for error in errors:
@@ -90,3 +98,12 @@ def delete(category, item):
         db.session.commit()
         return redirect(url_for('catalog.root'))
     return render_template('delete.html', form=form)
+
+
+@catalog_bp.route('/login')
+def login():
+    state = ''.join(random.choice(string.ascii_uppercase + string.digits)
+                    for x in xrange(32))
+    login_session['state'] = state
+    print "Hello World"
+    return render_template('login.html', STATE=state)

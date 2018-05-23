@@ -1,6 +1,7 @@
 #!/usr/bin/python
 import os
 from app import create_app
+from OpenSSL import SSL
 
 app = create_app('dev')
 
